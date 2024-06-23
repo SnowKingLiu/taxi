@@ -1,32 +1,36 @@
 # by:Snowkingliu
 # 2024/6/22 15:58
+import os
+
 import torch
 from langchain.llms.base import LLM
 from typing import Any, List, Optional
 from langchain.callbacks.manager import CallbackManagerForLLMRun
-from openxlab.model import download
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
 
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
 model_path = "./model"
-download(model_repo="OpenLMLab/internlm2-chat-7b", output=model_path)
+if not os.path.exists(model_path):
+    os.system(
+        f"huggingface-cli download --resume-download internlm/internlm2-1_8b --local-dir {model_path}"
+    )
 
-# base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-# if torch.cuda.is_available():
-#     base_model = (
-#         AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
-#         .to(torch.bfloat16)
-#         .cuda()
-#     )
-# else:
-#     base_model = AutoModelForCausalLM.from_pretrained(
-#         model_path, trust_remote_code=True
-#     ).to(torch.bfloat16)
-# base_model = base_model.eval()
 
-base_model = None
-base_tokenizer = None
+base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+if torch.cuda.is_available():
+    base_model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .to(torch.bfloat16)
+        .cuda()
+    )
+else:
+    base_model = AutoModelForCausalLM.from_pretrained(
+        model_path, trust_remote_code=True
+    ).to(torch.bfloat16)
+base_model = base_model.eval()
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
