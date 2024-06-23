@@ -10,7 +10,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
 
 model_path = "./model"
-download(model_repo="internlm/internlm2-chat-7b", output=model_path)
+download(model_repo="OpenLMLab/internlm2-chat-7b", output=model_path)
 
 base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 if torch.cuda.is_available():
