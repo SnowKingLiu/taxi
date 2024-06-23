@@ -1,0 +1,10 @@
+torch==2.0.1
+streamlit==1.32.0
+langchain
+openxlab
+lagent
+sentencepiece
+einops
+accelerate
+langchain_core
+flask
