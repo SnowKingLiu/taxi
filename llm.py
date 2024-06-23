@@ -12,18 +12,22 @@ import pandas as pd
 model_path = "./model"
 download(model_repo="OpenLMLab/internlm2-chat-7b", output=model_path)
 
-base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-if torch.cuda.is_available():
-    base_model = (
-        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
-        .to(torch.bfloat16)
-        .cuda()
-    )
-else:
-    base_model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True
-    ).to(torch.bfloat16)
-base_model = base_model.eval()
+# base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+# if torch.cuda.is_available():
+#     base_model = (
+#         AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+#         .to(torch.bfloat16)
+#         .cuda()
+#     )
+# else:
+#     base_model = AutoModelForCausalLM.from_pretrained(
+#         model_path, trust_remote_code=True
+#     ).to(torch.bfloat16)
+# base_model = base_model.eval()
+
+base_model = None
+base_tokenizer = None
+
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -47,6 +51,8 @@ class PandasLLM(LLM):
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs: Any,
     ):
+        if not self.model:
+            return "No model"
         # 重写调用函数
         system_prompt = """
          你是一个交通大模型，你有出租车的行程数据，数据存在pandas 的 df 中，
@@ -85,6 +91,8 @@ class TaxiLLM(LLM):
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs: Any,
     ):
+        if not self.model:
+            return "No model"
         # 重写调用函数
         system_prompt = """
          你是一个交通大模型，你有出租车的行程数据，数据存在pandas 的 df 中，你可以根据上下文的文件信息，做出简要的回答
