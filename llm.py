@@ -19,18 +19,20 @@ if not os.path.exists(model_path):
     )
 
 
-base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-if torch.cuda.is_available():
-    base_model = (
-        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
-        .to(torch.bfloat16)
-        .cuda()
-    )
-else:
-    base_model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True
-    ).to(torch.bfloat16)
-base_model = base_model.eval()
+# base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+# if torch.cuda.is_available():
+#     base_model = (
+#         AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+#         .to(torch.bfloat16)
+#         .cuda()
+#     )
+# else:
+#     base_model = AutoModelForCausalLM.from_pretrained(
+#         model_path, trust_remote_code=True
+#     ).to(torch.bfloat16)
+# base_model = base_model.eval()
+
+base_model, base_tokenizer = None, None
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
