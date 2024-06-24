@@ -7,7 +7,7 @@ from langchain.llms.base import LLM
 from typing import Any, List, Optional
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
@@ -19,21 +19,16 @@ if not os.path.exists(model_path):
     )
 
 
-# base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-# if torch.cuda.is_available():
-#     base_model = (
-#         AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
-#         .to(torch.bfloat16)
-#         .cuda()
-#     )
-# else:
-#     base_model = AutoModelForCausalLM.from_pretrained(
-#         model_path, trust_remote_code=True
-#     ).to(torch.bfloat16)
-# base_model = base_model.eval()
-
-base_model, base_tokenizer = None, None
-
+base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+if torch.cuda.is_available():
+    base_model = AutoModelForCausalLM.from_pretrained(
+        model_path, torch_dtype=torch.float16, trust_remote_code=True
+    ).cuda()
+else:
+    base_model = AutoModelForCausalLM.from_pretrained(
+        model_path, torch_dtype=torch.float16, trust_remote_code=True
+    )
+base_model = base_model.eval()
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -41,7 +36,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class PandasLLM(LLM):
     # 基于本地 InternLM 自定义 LLM 类
     tokenizer: AutoTokenizer = None
-    model: AutoModelForCausalLM = None
+    model: AutoModel = None
 
     def __init__(self, model, tokenizer):
         # model_path: InternLM 模型路径
@@ -81,7 +76,7 @@ class PandasLLM(LLM):
 class TaxiLLM(LLM):
     # 基于本地 InternLM 自定义 LLM 类
     tokenizer: AutoTokenizer = None
-    model: AutoModelForCausalLM = None
+    model: AutoModel = None
 
     def __init__(self, model, tokenizer):
         # model_path: InternLM 模型路径
