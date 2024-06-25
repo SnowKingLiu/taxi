@@ -4,11 +4,11 @@
 {% for dialog in history %}
 <div class="container mt-3" style="margin-bottom: 20px">
     <div class="card bg-light text-dark" style="margin-bottom: 20px">
-        <div class="card-body">{{dialog[0]}}</div>
+        <div class="card-body">{{dialog.question}}</div>
     </div>
     <div class="card">
         <div class="card-body">
-            {{dialog[1]}}
+            {{dialog.answer]}}
         </div>
     </div>
 </div>

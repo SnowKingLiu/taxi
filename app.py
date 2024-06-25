@@ -15,7 +15,9 @@ def input_form():
     if not question:
         return redirect("/")
     answer = chat("answer")
-    return render_template("index.html", history=[question, answer])
+    return render_template(
+        "index.html", history=[{"question": question, "answer": answer}]
+    )
 
 
 @app.route("/")
