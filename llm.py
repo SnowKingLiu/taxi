@@ -127,6 +127,7 @@ def execute(code):
 
 def chat(question):
     r = pandas_llm(question)
+    print(f"raw code: {r}")
     code = r.replace("```python", "```").split("```")[1].strip()
     p = execute(code)
 

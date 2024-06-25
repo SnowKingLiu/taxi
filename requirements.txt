@@ -8,3 +8,5 @@ einops
 accelerate
 langchain_core
 flask
+transformers
+lmdeploy
