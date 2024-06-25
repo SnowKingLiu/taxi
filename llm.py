@@ -15,7 +15,7 @@ os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 model_path = "internlm/internlm2-1_8b"
 if not os.path.exists(model_path):
     os.system(
-        f"huggingface-cli download --resume-download internlm/internlm2-1_8b --local-dir “internlm/internlm2-1_8b"
+        f"huggingface-cli download --resume-download internlm/internlm2-1_8b --local-dir internlm/internlm2-1_8b"
     )
 
 
