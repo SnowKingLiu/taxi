@@ -3,6 +3,7 @@
 import os
 
 import torch
+from huggingface_hub import snapshot_download
 from langchain.llms.base import LLM
 from typing import Any, List, Optional
 from langchain.callbacks.manager import CallbackManagerForLLMRun
@@ -10,23 +11,27 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
-os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+# model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-1_8b"
+# model_dir = snapshot_download(
+#     "Shanghai_AI_Laboratory/internlm2-chat-1_8b", cache_dir="models"
+# )
 
-model_path = "internlm/internlm2-chat-7b"
-if not os.path.exists(model_path):
-    os.system(
-        f"huggingface-cli download --resume-download internlm/internlm2-chat-7b --local-dir internlm/internlm2-chat-7b"
-    )
+model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-7b"
+model_dir = snapshot_download(
+    "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
+)
 
 
 base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 if torch.cuda.is_available():
     base_model = AutoModelForCausalLM.from_pretrained(
-        model_path, torch_dtype=torch.float16, trust_remote_code=True
+        model_path, torch_dtype=torch.float32, trust_remote_code=True
     ).cuda()
 else:
     base_model = AutoModelForCausalLM.from_pretrained(
-        model_path, torch_dtype=torch.float16, trust_remote_code=True
+        model_path,
+        torch_dtype=torch.float16,
+        trust_remote_code=True,
     )
 base_model = base_model.eval()
 
