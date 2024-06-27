@@ -11,19 +11,12 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
-# model_path = "internlm/internlm2-chat-7b"
+model_path = "internlm/internlm2-chat-1_8b"
 
-os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
-
-model_path = "./model"
+# model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-1_8b"
 # model_dir = snapshot_download(
-#     "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
+#     "Shanghai_AI_Laboratory/internlm2-chat-1_8b", cache_dir="models"
 # )
-
-os.system(
-    f"huggingface-cli download --resume-download internlm/internlm2-7b --local-dir {model_path}"
-)
-
 
 base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 if torch.cuda.is_available():
