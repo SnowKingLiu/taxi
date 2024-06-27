@@ -11,12 +11,12 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
-model_path = "internlm/internlm2-chat-7b"
+# model_path = "internlm/internlm2-chat-7b"
 
-# model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-7b"
-# model_dir = snapshot_download(
-#     "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
-# )
+model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-7b"
+model_dir = snapshot_download(
+    "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
+)
 
 
 base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
