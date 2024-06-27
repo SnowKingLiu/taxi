@@ -13,9 +13,15 @@ import pandas as pd
 
 # model_path = "internlm/internlm2-chat-7b"
 
-model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-7b"
-model_dir = snapshot_download(
-    "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+model_path = "./model"
+# model_dir = snapshot_download(
+#     "Shanghai_AI_Laboratory/internlm2-chat-7b", cache_dir="models"
+# )
+
+os.system(
+    f"huggingface-cli download --resume-download internlm/internlm2-7b --local-dir {model_path}"
 )
 
 
