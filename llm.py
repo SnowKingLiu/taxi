@@ -11,7 +11,7 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
-model_path = "internlm/internlm2-chat-1_8b"
+model_path = "internlm/internlm2-1_8b"
 
 # model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-1_8b"
 # model_dir = snapshot_download(
