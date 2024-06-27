@@ -22,7 +22,7 @@ model_path = "internlm/internlm2-chat-7b"
 base_tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 if torch.cuda.is_available():
     base_model = AutoModelForCausalLM.from_pretrained(
-        model_path, torch_dtype=torch.float32, trust_remote_code=True
+        model_path, torch_dtype=torch.float16, trust_remote_code=True
     ).cuda()
 else:
     base_model = AutoModelForCausalLM.from_pretrained(
