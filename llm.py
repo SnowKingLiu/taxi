@@ -11,7 +11,7 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import pandas as pd
 
-model_path = "internlm/internlm2-chat-7b"
+model_path = "internlm/internlm2-1_8b"
 
 # model_path = "models/Shanghai_AI_Laboratory/internlm2-chat-7b"
 # model_dir = snapshot_download(
@@ -131,7 +131,11 @@ def execute(code):
 def chat(question):
     r = pandas_llm(question)
     print(f"raw code: {r}")
-    code = r.replace("```python", "```").split("```")[1].strip()
+    s = r.replace("```python", "```").split("```")
+    if len(s) > 1:
+        code = s[1].strip()
+    else:
+        code = s[0]
     p = execute(code)
 
     nq = f"""
